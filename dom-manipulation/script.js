@@ -22,15 +22,20 @@ const quotes = [
       document.getElementById('newQuoteText').value = '';
       document.getElementById('newQuoteCategory').value = '';
   
+      showRandomQuote();  // Update DOM with a random quote immediately after adding
+  
       alert('New quote added!');
     } else {
       alert('Please fill in both fields.');
     }
   }
   
-  document.getElementById('newQuote').addEventListener('click', showRandomQuote);
-  document.getElementById('addQuoteBtn').addEventListener('click', addQuote);
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('newQuote').addEventListener('click', showRandomQuote);
+    document.getElementById('addQuoteBtn').addEventListener('click', addQuote);
+  });
   
   // Show the first random quote when the page loads
   window.onload = showRandomQuote;
+  
   
