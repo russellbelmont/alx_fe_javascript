@@ -31,6 +31,9 @@ function addQuote() {
         // Add the new quote to the quotes array
         quotes.push(newQuote);
 
+        // Optionally show the new quote immediately by calling showRandomQuote()
+        showRandomQuote();
+
         // Clear the input fields
         document.getElementById('newQuoteText').value = '';
         document.getElementById('newQuoteCategory').value = '';
@@ -43,6 +46,10 @@ function addQuote() {
 
 // Event listener to show a new random quote when the button is clicked
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
+
+// Optional: Show a random quote initially when the page loads (first-time load)
+document.addEventListener('DOMContentLoaded', showRandomQuote);
+
 
   
   
