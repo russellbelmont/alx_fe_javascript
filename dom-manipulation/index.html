@@ -7,36 +7,32 @@
     <style>
       body {
         font-family: Arial, sans-serif;
-        text-align: center;
-        margin-top: 20px;
+        margin: 20px;
       }
       #quoteDisplay {
         margin: 20px 0;
-        font-size: 1.2em;
-        color: #333;
-      }
-      #newQuote {
-        padding: 10px 20px;
-        cursor: pointer;
-        margin: 10px;
-      }
-      #newQuoteText,
-      #newQuoteCategory {
         padding: 10px;
-        margin: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
       }
       button {
         padding: 10px 20px;
+        margin: 5px;
         cursor: pointer;
+      }
+      input {
+        padding: 10px;
+        margin: 5px;
       }
     </style>
   </head>
   <body>
     <h1>Dynamic Quote Generator</h1>
-    <div id="quoteDisplay">No quote to show yet...</div>
+    <div id="quoteDisplay">
+      Select a category and click "Show New Quote" to see a random quote.
+    </div>
     <button id="newQuote">Show New Quote</button>
 
-    <!-- Add new quote form -->
     <div>
       <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
       <input

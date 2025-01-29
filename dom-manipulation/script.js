@@ -1,20 +1,17 @@
 // Array of quote objects
-const quotes = [
-    { text: "The only way to do great work is to love what you do.", category: "Passion" },
-    { text: "Life is what happens when you're busy making other plans.", category: "Life" },
-    { text: "The future belongs to those who believe in the beauty of their dreams.", category: "Dreams" },
+let quotes = [
+    { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspiration" },
+    { text: "Do what you can, with what you have, where you are.", category: "Motivation" },
+    { text: "The best way to predict the future is to invent it.", category: "Innovation" },
+    { text: "Life is 10% what happens to us and 90% how we react to it.", category: "Life" }
   ];
   
   // Function to display a random quote
   function showRandomQuote() {
+    const quoteDisplay = document.getElementById('quoteDisplay');
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
-  
-    const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.innerHTML = `
-      <p>${randomQuote.text}</p>
-      <p><em>- Category: ${randomQuote.category}</em></p>
-    `;
+    quoteDisplay.innerHTML = `<strong>${randomQuote.category}:</strong> "${randomQuote.text}"`;
   }
   
   // Function to add a new quote
@@ -24,34 +21,16 @@ const quotes = [
   
     if (newQuoteText && newQuoteCategory) {
       quotes.push({ text: newQuoteText, category: newQuoteCategory });
-  
-      // Clear input fields
       document.getElementById('newQuoteText').value = '';
       document.getElementById('newQuoteCategory').value = '';
-  
-      // Close the form
-      closeAddQuoteForm();
-  
-      // Display a success message (optional)
       alert('Quote added successfully!');
     } else {
-      alert('Please enter both quote and category.');
+      alert('Please enter both a quote and a category.');
     }
   }
   
-  // Function to show the add quote form
-  function showAddQuoteForm() {
-    document.getElementById('addQuoteForm').style.display = 'block';
-  }
-  
-  // Function to close the add quote form
-  function closeAddQuoteForm() {
-    document.getElementById('addQuoteForm').style.display = 'none';
-  }
-  
-  // Event listeners
+  // Event listener for the "Show New Quote" button
   document.getElementById('newQuote').addEventListener('click', showRandomQuote);
-  document.getElementById('addQuoteButton').addEventListener('click', showAddQuoteForm);
   
   // Initial quote display
   showRandomQuote();
