@@ -1,4 +1,3 @@
-
 // Simulating server URL (JSONPlaceholder)
 const serverUrl = "https://jsonplaceholder.typicode.com/posts";
 
@@ -83,8 +82,8 @@ function resolveConflicts(serverQuotes) {
     // Save the updated quotes to localStorage after resolving conflicts
     localStorage.setItem('quotes', JSON.stringify(localQuotes));
 
-    // Notify user about data update
-    notifyUser("Quotes have been updated from the server.");
+    // Notify user that quotes have been synced with the server
+    notifyUser("Quotes synced with server!");
     filterQuotes(); // Update the displayed quotes
 }
 
