@@ -16,7 +16,7 @@ function loadQuotesFromLocalStorage() {
 }
 
 // Save quotes to localStorage
-function saveQuotes() {
+function saveQuotes(quotes) {
     localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
@@ -62,7 +62,7 @@ function resolveConflicts(serverQuotes) {
     });
 
     // Save the updated quotes to localStorage after resolving conflicts
-    localStorage.setItem('quotes', JSON.stringify(localQuotes));
+    saveQuotes(localQuotes);
 
     // Notify user about data update
     notifyUser("Quotes have been updated from the server.");
@@ -120,7 +120,7 @@ function addQuote() {
         
         const quotes = loadQuotesFromLocalStorage();
         quotes.push(newQuote);
-        localStorage.setItem('quotes', JSON.stringify(quotes));
+        saveQuotes(quotes);
 
         alert('Quote added successfully!');
         filterQuotes(); // Update the displayed quotes immediately
@@ -148,7 +148,7 @@ function importFromJsonFile(event) {
     fileReader.onload = function(event) {
         const importedQuotes = JSON.parse(event.target.result);
         if (Array.isArray(importedQuotes)) {
-            localStorage.setItem('quotes', JSON.stringify(importedQuotes));  // Replace with imported quotes
+            saveQuotes(importedQuotes);  // Replace with imported quotes
             alert('Quotes imported successfully!');
             filterQuotes();  // Display quotes after import
         } else {
