@@ -1,3 +1,4 @@
+
 // Simulating server URL (JSONPlaceholder)
 const serverUrl = "https://jsonplaceholder.typicode.com/posts";
 
@@ -16,7 +17,7 @@ function loadQuotesFromLocalStorage() {
 }
 
 // Save quotes to localStorage
-function saveQuotes(quotes) {
+function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
@@ -28,6 +29,24 @@ async function fetchQuotesFromServer() {
         return serverQuotes;
     } catch (error) {
         console.error("Error fetching quotes from server:", error);
+    }
+}
+
+// Posting new data to the server using a mock API (using POST)
+async function postQuoteToServer(quote) {
+    try {
+        const response = await fetch(serverUrl, {
+            method: "POST", // Post method to send data
+            headers: {
+                "Content-Type": "application/json" // Sending data as JSON
+            },
+            body: JSON.stringify(quote) // The quote data as JSON
+        });
+        
+        const result = await response.json();
+        console.log("Quote posted to server:", result);
+    } catch (error) {
+        console.error("Error posting quote to server:", error);
     }
 }
 
@@ -62,12 +81,15 @@ function resolveConflicts(serverQuotes) {
     });
 
     // Save the updated quotes to localStorage after resolving conflicts
-    saveQuotes(localQuotes);
+    localStorage.setItem('quotes', JSON.stringify(localQuotes));
 
     // Notify user about data update
     notifyUser("Quotes have been updated from the server.");
     filterQuotes(); // Update the displayed quotes
 }
+
+// Periodically checking for new quotes from the server
+setInterval(syncQuotes, 10000); // Sync every 10 seconds
 
 // Notify user about updates
 function notifyUser(message) {
@@ -83,9 +105,6 @@ function notifyUser(message) {
     // Automatically hide the notification after 5 seconds
     setTimeout(() => notification.remove(), 5000);
 }
-
-// Periodically checking for new quotes from the server
-setInterval(syncQuotes, 10000); // Sync every 10 seconds
 
 // Filter quotes based on the selected category
 function filterQuotes() {
@@ -107,7 +126,7 @@ function filterQuotes() {
 }
 
 // Add a new quote
-function addQuote() {
+async function addQuote() {
     const newQuoteText = document.getElementById('newQuoteText').value;
     const newQuoteCategory = document.getElementById('newQuoteCategory').value;
 
@@ -120,7 +139,10 @@ function addQuote() {
         
         const quotes = loadQuotesFromLocalStorage();
         quotes.push(newQuote);
-        saveQuotes(quotes);
+        localStorage.setItem('quotes', JSON.stringify(quotes));
+
+        // Post the new quote to the server
+        await postQuoteToServer(newQuote); // Ensure the quote is posted to the server
 
         alert('Quote added successfully!');
         filterQuotes(); // Update the displayed quotes immediately
@@ -148,7 +170,7 @@ function importFromJsonFile(event) {
     fileReader.onload = function(event) {
         const importedQuotes = JSON.parse(event.target.result);
         if (Array.isArray(importedQuotes)) {
-            saveQuotes(importedQuotes);  // Replace with imported quotes
+            localStorage.setItem('quotes', JSON.stringify(importedQuotes));  // Replace with imported quotes
             alert('Quotes imported successfully!');
             filterQuotes();  // Display quotes after import
         } else {
@@ -172,7 +194,6 @@ document.getElementById('importFile').addEventListener('change', importFromJsonF
 window.onload = () => {
     filterQuotes(); // Display quotes when the page loads
 };
-
 
 
   
