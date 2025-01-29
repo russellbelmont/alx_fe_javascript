@@ -43,14 +43,14 @@ function loadQuotesFromLocalStorage() {
     categoryFilter.value = lastSelectedCategory;
   
     // Filter quotes based on the last selected category on page load
-    filterQuotes();
+    filterQuotes(); // Calls filterQuotes on page load to update the displayed quotes
   }
   
   // Function to filter quotes based on the selected category
   function filterQuotes() {
     const selectedCategory = document.getElementById('categoryFilter').value;
     const quoteDisplay = document.getElementById('quoteDisplay');
-    
+  
     // Filter the quotes by the selected category
     let filteredQuotes = selectedCategory === "all"
       ? quotes
@@ -60,7 +60,7 @@ function loadQuotesFromLocalStorage() {
     quoteDisplay.innerHTML = filteredQuotes.length
       ? filteredQuotes.map(quote => `<strong>${quote.category}:</strong> "${quote.text}"`).join('<br>')
       : 'No quotes available in this category.';
-    
+  
     // Save the last selected category to localStorage
     localStorage.setItem('lastSelectedCategory', selectedCategory);
   }
@@ -107,7 +107,7 @@ function loadQuotesFromLocalStorage() {
         quotes.push(...importedQuotes);  // Add the imported quotes
         saveQuotes();  // Save to localStorage
         alert('Quotes imported successfully!');
-        filterQuotes();  // Display a random quote after import
+        filterQuotes();  // Display quotes after import
       } else {
         alert('Invalid JSON format.');
       }
@@ -123,7 +123,6 @@ function loadQuotesFromLocalStorage() {
     populateCategories(); // Populate category filter on page load
   };
   
-
   
   
   
