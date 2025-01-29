@@ -20,17 +20,27 @@ function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
-// Sync local quotes with the server
-async function syncWithServer() {
+// Fetch quotes from the server using a mock API
+async function fetchQuotesFromServer() {
     try {
-        // Fetch server data (simulated with JSONPlaceholder)
         const response = await fetch(serverUrl);
         const serverQuotes = await response.json();
-
-        // Compare server data with local data and handle conflicts
-        resolveConflicts(serverQuotes);
+        return serverQuotes;
     } catch (error) {
-        console.error("Error syncing with server:", error);
+        console.error("Error fetching quotes from server:", error);
+    }
+}
+
+// Sync local quotes with the server
+async function syncQuotes() {
+    try {
+        const serverQuotes = await fetchQuotesFromServer();
+        if (serverQuotes) {
+            // Compare server data with local data and handle conflicts
+            resolveConflicts(serverQuotes);
+        }
+    } catch (error) {
+        console.error("Error syncing quotes with server:", error);
     }
 }
 
@@ -74,8 +84,8 @@ function notifyUser(message) {
     setTimeout(() => notification.remove(), 5000);
 }
 
-// Fetch quotes and sync with the server every 10 seconds
-setInterval(syncWithServer, 10000);
+// Periodically checking for new quotes from the server
+setInterval(syncQuotes, 10000); // Sync every 10 seconds
 
 // Filter quotes based on the selected category
 function filterQuotes() {
@@ -162,6 +172,7 @@ document.getElementById('importFile').addEventListener('change', importFromJsonF
 window.onload = () => {
     filterQuotes(); // Display quotes when the page loads
 };
+
 
 
   
