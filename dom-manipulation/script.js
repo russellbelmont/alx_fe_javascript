@@ -220,8 +220,36 @@ async function fetchQuotesFromServer() {
     }
 }
 
+// Post a new quote to the server using a mock API (JSONPlaceholder)
+async function postQuoteToServer(newQuote) {
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: newQuote.text,
+                body: newQuote.category,
+                userId: 1,
+            }),
+        });
+
+        if (response.ok) {
+            const postedQuote = await response.json();
+            console.log("Posted new quote to server:", postedQuote);
+            return postedQuote;
+        } else {
+            console.error("Failed to post the quote to the server.");
+        }
+    } catch (error) {
+        console.error("Error posting quote to the server:", error);
+    }
+}
+
 // Set interval to sync quotes every 10 seconds
 setInterval(syncQuotes, 10000); // Sync every 10 seconds
+
 
   
 
