@@ -116,13 +116,14 @@ let quotes = [
         console.log("No conflicts. Syncing complete.");
         quotes = [...serverQuotes];
         saveQuotes(); // Save the updated quotes to local storage
-        showNotification("Quotes have been synced with the server.");
+        showNotification("Quotes synced with server!"); // This is the specific message for success
       }
   
       // Refresh the quotes display
       showRandomQuote();
     } catch (error) {
       console.error("Error syncing quotes with the server:", error);
+      showNotification("Error syncing quotes with server.");
     }
   }
   
@@ -170,6 +171,7 @@ let quotes = [
   notificationElement.style.right = "10px";
   notificationElement.style.borderRadius = "5px";
   document.body.appendChild(notificationElement);
+  
   
   
   
