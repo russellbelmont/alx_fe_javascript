@@ -95,7 +95,7 @@ let quotes = [
   }
   
   // Sync quotes with the server and resolve conflicts
-  async function syncWithServer() {
+  async function syncQuotes() {
     try {
       const serverQuotes = await fetchQuotesFromServer();
       const serverQuoteTexts = serverQuotes.map((quote) => quote.text);
@@ -142,7 +142,7 @@ let quotes = [
   }
   
   // Function to check and sync data periodically
-  setInterval(syncWithServer, 10000); // Sync every 10 seconds
+  setInterval(syncQuotes, 10000); // Sync every 10 seconds
   
   // Event listener for the "Show New Quote" button
   document.getElementById("newQuote").addEventListener("click", showRandomQuote);
@@ -158,6 +158,18 @@ let quotes = [
     quotes = JSON.parse(localStorage.getItem("quotes"));
     showRandomQuote();
   }
+  
+  // Create and display the notification element
+  const notificationElement = document.createElement("div");
+  notificationElement.id = "notification";
+  notificationElement.style.display = "none";
+  notificationElement.style.backgroundColor = "lightblue";
+  notificationElement.style.padding = "10px";
+  notificationElement.style.position = "absolute";
+  notificationElement.style.top = "10px";
+  notificationElement.style.right = "10px";
+  notificationElement.style.borderRadius = "5px";
+  document.body.appendChild(notificationElement);
   
   
   
