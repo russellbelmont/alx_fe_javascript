@@ -37,6 +37,14 @@
       onchange="importFromJsonFile(event)"
     />
 
+    <!-- Conflict Resolution Notification -->
+    <div id="conflictNotification" style="display: none">
+      <p>
+        Data conflict detected. Server data has been applied.
+        <button onclick="resolveConflict()">Resolve Conflict</button>
+      </p>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
