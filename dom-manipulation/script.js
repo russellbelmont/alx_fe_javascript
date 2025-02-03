@@ -52,33 +52,52 @@ let quotes = [
     document.body.appendChild(formContainer);
   }
   
-  // Simulate fetching quotes from the server
-  function fetchQuotesFromServer() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // Simulating a response from the server
-        const serverQuotes = [
-          { text: "To be, or not to be, that is the question.", category: "Philosophy" },
-          { text: "The only way to do great work is to love what you do.", category: "Inspiration" },
-        ];
-        resolve(serverQuotes);
-      }, 1000);
-    });
+  // Fetch quotes from the server using a mock API (JSONPlaceholder)
+  async function fetchQuotesFromServer() {
+    try {
+      const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+      const serverQuotes = await response.json();
+      // Limit the results to 5 quotes for simplicity
+      return serverQuotes.slice(0, 5).map((quote) => ({
+        text: quote.title,
+        category: "General", // Example category, you can modify this
+      }));
+    } catch (error) {
+      console.error("Error fetching quotes from the server:", error);
+    }
   }
   
-  // Simulate posting new quotes to the server
-  function postQuoteToServer(newQuote) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log("Posted new quote to server:", newQuote);
-        resolve(newQuote);
-      }, 1000);
-    });
+  // Post a new quote to the server using a mock API (JSONPlaceholder)
+  async function postQuoteToServer(newQuote) {
+    try {
+      const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: newQuote.text,
+          body: newQuote.category,
+          userId: 1,
+        }),
+      });
+  
+      if (response.ok) {
+        const postedQuote = await response.json();
+        console.log("Posted new quote to server:", postedQuote);
+        return postedQuote;
+      } else {
+        console.error("Failed to post the quote to the server.");
+      }
+    } catch (error) {
+      console.error("Error posting quote to the server:", error);
+    }
   }
   
-  // Function to sync data with the server and resolve conflicts
-  function syncWithServer() {
-    fetchQuotesFromServer().then((serverQuotes) => {
+  // Sync quotes with the server and resolve conflicts
+  async function syncWithServer() {
+    try {
+      const serverQuotes = await fetchQuotesFromServer();
       const serverQuoteTexts = serverQuotes.map((quote) => quote.text);
   
       // Check for conflicts (quotes that exist locally but not on the server)
@@ -102,10 +121,12 @@ let quotes = [
   
       // Refresh the quotes display
       showRandomQuote();
-    });
+    } catch (error) {
+      console.error("Error syncing quotes with the server:", error);
+    }
   }
   
-  // Function to save quotes to local storage
+  // Save quotes to local storage
   function saveQuotes() {
     localStorage.setItem("quotes", JSON.stringify(quotes));
   }
