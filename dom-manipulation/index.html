@@ -4,71 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dynamic Quote Generator</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-      }
-      #quoteDisplay {
-        margin: 20px 0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        background-color: #f9f9f9;
-      }
-      button {
-        padding: 10px 20px;
-        margin: 5px;
-        cursor: pointer;
-      }
-      input {
-        padding: 10px;
-        margin: 5px;
-      }
-      select {
-        padding: 10px;
-        margin: 5px;
-      }
-      #notification {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        margin: 10px 0;
-        display: none;
-      }
-    </style>
   </head>
   <body>
     <h1>Dynamic Quote Generator</h1>
-
-    <!-- Notification area -->
-    <div id="notification"></div>
-
-    <div id="quoteDisplay">
-      Select a category and click "Show New Quote" to see a random quote.
-    </div>
-
-    <!-- Category Filter Dropdown -->
-    <select id="categoryFilter" onchange="filterQuotes()">
-      <option value="all">All Categories</option>
-    </select>
-
-    <!-- Show New Quote Button -->
+    <div id="quoteDisplay"></div>
     <button id="newQuote">Show New Quote</button>
 
-    <!-- Show Random Quote Button -->
-    <button id="randomQuote">Show Random Quote</button>
-
-    <!-- Export and Import Buttons -->
-    <button onclick="exportToJson()">Export Quotes as JSON</button>
-    <input
-      type="file"
-      id="importFile"
-      accept=".json"
-      onchange="importFromJsonFile(event)"
-    />
-
-    <!-- Add Quote Form -->
+    <!-- Form for adding new quotes -->
     <div>
       <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
       <input
