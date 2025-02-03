@@ -1,3 +1,4 @@
+
 // Array to store quotes
 let quotes = [
     { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspiration" },
@@ -20,6 +21,7 @@ let quotes = [
       quotes.push({ text: newQuoteText, category: newQuoteCategory });
       document.getElementById("newQuoteText").value = "";
       document.getElementById("newQuoteCategory").value = "";
+      saveQuotes(); // Save quotes to local storage
       showRandomQuote(); // Refresh the displayed quote
     } else {
       alert("Please fill in both fields!");
@@ -51,14 +53,53 @@ let quotes = [
     document.body.appendChild(formContainer);
   }
   
+  // Function to save quotes to local storage
+  function saveQuotes() {
+    localStorage.setItem("quotes", JSON.stringify(quotes));
+  }
+  
+  // Function to load quotes from local storage
+  function loadQuotes() {
+    const savedQuotes = localStorage.getItem("quotes");
+    if (savedQuotes) {
+      quotes = JSON.parse(savedQuotes);
+    }
+  }
+  
+  // Function to export quotes to a JSON file
+  function exportToJson() {
+    const blob = new Blob([JSON.stringify(quotes, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "quotes.json";
+    link.click();
+  }
+  
+  // Function to import quotes from a JSON file
+  function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(event) {
+      const importedQuotes = JSON.parse(event.target.result);
+      quotes.push(...importedQuotes);
+      saveQuotes(); // Save imported quotes to local storage
+      alert("Quotes imported successfully!");
+      showRandomQuote(); // Refresh the displayed quote
+    };
+    fileReader.readAsText(event.target.files[0]);
+  }
+  
   // Event listener for the "Show New Quote" button
   document.getElementById("newQuote").addEventListener("click", showRandomQuote);
   
   // Call the function to create the form when the page loads
   createAddQuoteForm();
   
+  // Load quotes from local storage when the page loads
+  loadQuotes();
+  
   // Display a random quote on page load
   showRandomQuote();
+
 
   
   
